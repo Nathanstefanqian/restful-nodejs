@@ -2,22 +2,25 @@
   "name": "restful-nodejs",
   "version": "1.0.0",
   "description": "a simple and easy restful api based on koa + nodejs",
-  "main": "main.js",
+  "main": "app/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/Nathanstefanqian/restful-nodejs.git"
+    "dev": "nodemon app/app.js",
+    "start": "node app/app.js"
   },
   "keywords": [
     "nodejs",
     "koa"
   ],
   "author": "nathanqian",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Nathanstefanqian/restful-nodejs/issues"
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.14.2",
+    "sequelize": "^6.32.1",
+    "sqlite3": "^5.1.6"
   },
-  "homepage": "https://github.com/Nathanstefanqian/restful-nodejs#readme"
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "nodemon": "^3.0.1",
+    "standard": "^14.3.4"
+  }
 }
