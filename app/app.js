@@ -1,3 +1,4 @@
+// const model = require('./model')
 const Koa = require('koa')
 const app = new Koa()
 
