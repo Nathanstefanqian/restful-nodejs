@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { logger } = require(':middle/logger')
 
 const getJSFile = filePath => {
   // 使用 path.resolve() 方法获取传入文件路径的绝对路径
@@ -31,5 +32,6 @@ const fail = (message, status = 1) => {
 module.exports = {
   getJSFile,
   succ,
-  fail
+  fail,
+  logger
 }
