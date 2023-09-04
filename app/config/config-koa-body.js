@@ -9,7 +9,7 @@ module.exports = {
   formidable: {
     uploadDir: tempDir,
     hash: 'md5',
-    maxFieldsSize: 2 * 1024 * 1024, // 表单字段最大尺寸
+    maxFieldsSize: 4 * 1024 * 1024, // 表单字段最大尺寸
     maxFileSize: 2 * 1024 * 1024, // 单个文件最大尺寸
     onFileBegin(name, file) {  // eslint-disable-line
       global.tmpFileUrl = global.tmpFileUrl || 0
@@ -19,7 +19,9 @@ module.exports = {
     },
     keepExtensions: false
   },
-  onError(_, ctx) {  // eslint-disable-line
-    ctx.throw(413, '文件超过限额大小！')
+  onError(err, ctx) {  // eslint-disable-line
+    console.log(err)
+    // ctx.throw(413, '文件超过限额大小！')
+    ctx.throw(500, '服务器故障')
   }
 }

@@ -51,12 +51,14 @@ const router = new Router()
 
 // 这里适配koa-router@8.0.8 最新版本为@12.0.0
 // 定义了一个方法可以获取所有method的路由，/api/v1 + *
+
 router.all(API_PREFIX + '*', async (ctx, next) => {
   // 获取路由名
   // 根据请求path获取请求apiname以及请求 id，并判断path是否合法
   const reqPath = ctx.request.path.replace(new RegExp(API_PREFIX), '')
   console.log(reqPath.split('/').map(i => i.toLocaleLowerCase()))
   const [reqApiName, reqId, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
+  // reqApiName代表路由名， reqId代表/:id，errPath代表多余的路由
   console.log(reqApiName, reqId, errPath)
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
@@ -69,7 +71,7 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
     const reqModelName = RestFulModel[reqApiName]
     await core(ctx, reqModelName, reqMethod, reqApiName, reqId, next)
   } else {
-    ctx.throw(404)
+    ctx.throw(404, '没有找到哦')
   }
 })
 

@@ -1,3 +1,4 @@
+const { logger } = global.tool
 const DB_CONN_SQLITE = {
   host: 'localhost',
   dialect: 'sqlite',
@@ -8,13 +9,16 @@ const DB_CONN_SQLITE = {
     idle: 10000
   },
   storage: 'db/data.db',
-  logging: false // 不打印数据库操作相关的信息
+  // logging: false // 不打印数据库操作相关的信息
+  logging: function (sql) {
+    logger.info(sql)
+  }
 }
 
 const DB_CONN_MYSQL = {
   database: 'restful',
   username: 'root',
-  password: 'Qlj20020503@',
+  password: 'Qlj20020503@', // 别试了 误推 密码已经改了
   host: '47.96.156.243',
   port: 3306,
   dialect: 'mysql',
@@ -34,6 +38,9 @@ const APP_HOST = {
   port: 3000
 }
 
+// 分页列表默认每页条数
+const PAGE_SIZE = 10
+
 // 表名前缀
 const DB_PREFIX = 'koa_'
 
@@ -45,5 +52,6 @@ module.exports = {
   DB_CONN_MYSQL,
   DB_PREFIX,
   APP_HOST,
-  API_PREFIX
+  API_PREFIX,
+  PAGE_SIZE
 }

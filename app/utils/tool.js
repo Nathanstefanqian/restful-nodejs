@@ -44,6 +44,7 @@ const isInRootPath = path => {
   return rootPath === pathPre
 }
 
+// 创建文件夹
 const makeDir = dirPath => {
   return new Promise((resolve, reject) => {
     // 这里设定仅允许在项目根目录以内建立文件夹
@@ -87,6 +88,13 @@ const moveFile = (sourcePath, targetPath) => {
   })
 }
 
+// 对象键名转小写 （目前用于转化 url, params 对象)
+const objKeyLower = o => {
+  const res = {}
+  for (const i in o) res[i.toLocaleLowerCase()] = o[i]
+  return res
+}
+
 module.exports = {
   getJSFile,
   succ,
@@ -95,5 +103,8 @@ module.exports = {
   toType,
   isInRootPath,
   makeDir,
-  moveFile
+  moveFile,
+  objKeyLower,
+  // 加载自定义校验工具
+  verify: require('./verify')
 }

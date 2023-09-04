@@ -36,11 +36,12 @@ const app = new Koa()
 app.use(koaError)
 app.use(staticFiles(path.resolve(__dirname, '../static')))
 app.use(koaBody(configKoaBody))
-app.use(koaJson({ pretty: false, param: 'pretty' }))
+app.use(koaJson({ pretty: true, param: 'pretty' }))
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.on('error', (err, ctx) => {
   // 通过监听error事件，来捕获其中的错误
+  console.log(err)
   logger.error(err)
 })
 app.use(accessLogger())
