@@ -15,7 +15,10 @@ bestRequire(process.cwd(), {
   config: ':@/config',
   utils: ':@/utils',
   router: ':@/router',
-  middle: ':@/middle'
+  middle: ':@/middle',
+  core: ':@/core',
+  api: ':@/api',
+  model: ':@/model'
 })
 global.tool = require(':utils/tool')
 // 引入配置

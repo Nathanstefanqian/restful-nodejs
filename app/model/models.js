@@ -43,5 +43,9 @@ module.exports = {
     email: privateTypes.Email,
     website: privateTypes.Url,
     time: privateTypes.Date
+  },
+  User: {
+    username: STRING,
+    password: STRING
   }
 }
