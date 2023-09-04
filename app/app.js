@@ -18,19 +18,19 @@ bestRequire(process.cwd(), {
   middle: ':@/middle'
 })
 global.tool = require(':utils/tool')
-
 // 引入配置
 const { host, port } = require(':config').APP_HOST
 const configKoaBody = require(':config/config-koa-body')
+// 引入日志处理
+const { accessLogger, logger } = require(':@/middle/logger')
+global.tool.logger = logger
 // 引入自定义的异常处理中间件
 const koaError = require(':middle/error')
-const { accessLogger, logger } = require(':@/middle/logger')
 // 引入路由
 const router = require(':router')
 // 创建app并注册各种中间件
 const app = new Koa()
 app.use(koaError)
-app.use(accessLogger())
 app.use(staticFiles(path.resolve(__dirname, '../static')))
 app.use(koaBody(configKoaBody))
 app.use(koaJson({ pretty: false, param: 'pretty' }))
@@ -40,6 +40,7 @@ app.on('error', (err, ctx) => {
   // 通过监听error事件，来捕获其中的错误
   logger.error(err)
 })
+app.use(accessLogger())
 
 app.listen(port, host,
   console.log(`RESTFul CMS api listening on http://${host}:${port}!`)

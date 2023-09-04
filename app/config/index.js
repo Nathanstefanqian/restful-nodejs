@@ -20,7 +20,7 @@ const APP_HOST = {
 const DB_PREFIX = 'koa_'
 
 // 路由前缀
-const API_PREFIX = '/api/v1'
+const API_PREFIX = '/api/v1/'
 
 module.exports = {
   DB_CONN,
