@@ -7,6 +7,7 @@ const get = require('./get')
 const put = require('./put')
 const del = require('./del')
 
+// 程序内部获取方法
 const getList = async (model, params) => await ls({}, model, '', params)
 
 const getItem = async (model, params) => {
