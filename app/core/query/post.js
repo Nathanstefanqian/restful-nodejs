@@ -11,9 +11,11 @@ const models = require(':model')
 const { toType } = global.tool
 module.exports = async (ctx, model, method, params) => {
   if (toType(params) === 'object') params = [params] // 如果是单条数据，转化为列表的形式，共用后续处理
-  if (params.filter(r => r.id).length) {
-    ctx.throw(412, '添加新数据，数据不得包含ID字段')
-  }
+  // 数据基本格式校验
+  params.forEach(r => {
+    if (r.id) ctx.throw(412, '添加新数据，数据不得包含ID字段')
+    if (Object.keys(r).length === 0) ctx.throw(412, '添加新数据，数据不得为空')
+  })
   const result = { ids: [] }
   await Promise.all(params.map(async item => {
     const id = await models[model].create(item).then(r => r.id)

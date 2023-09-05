@@ -23,10 +23,10 @@ const privateTypes = {
   },
   Date: { type: INTEGER, defaultValue: () => +new Date() }
 }
-
+// 定义了三种角色
 module.exports = {
   // 超级管理员
-  Manages: {
+  Admin: {
     account: STRING, // 超级管理员账号
     password: TEXT, // 超级管理员密码
     name: STRING, // 姓名
@@ -44,8 +44,15 @@ module.exports = {
     website: privateTypes.Url,
     time: privateTypes.Date
   },
-  User: {
-    username: STRING,
-    password: STRING
+  // 文章小编
+  Editor: {
+    account: STRING,
+    password: TEXT,
+    name: STRING,
+    avatar: STRING,
+    mobile: privateTypes.Mobile,
+    email: privateTypes.Email,
+    website: privateTypes.Url,
+    time: privateTypes.Date
   }
 }

@@ -20,6 +20,7 @@
 */
 const models = require(':model')
 const { toType, logger } = global.tool
+
 module.exports = async (ctx, model, method, params, id) => {
   // 构建返回数据结构
   const res = { succ: [], fail: [] }
@@ -35,28 +36,32 @@ module.exports = async (ctx, model, method, params, id) => {
       res.fail.push(id)
     }
   }
-  if (id === 'first') {
-    // 未知ID单条数据修改
-    delete params.id // 防止修改的内容中有id
-    await putItem(id, params)
-  } else if (id === 'batch') {
+
+  // 处理逻辑
+  if (id === 'batch') {
     // 多ID多数据修改
-    if (toType(params) !== 'array') {
-      ctx.throw(412, '批量更新数据，数据参数必须为数组对象！')
-    } else if (params.filter(r => !r.id).length) {
-      ctx.throw(412, '批量更新数据，每条数据必须包含ID字段')
+    // 数据校验
+    if (toType(params) !== 'array') ctx.throw(412, '批量更新数据，数据参数必须为数组对象')
+    if (params.filter(r => !r.id).length) ctx.throw(412, '批量更新数据，每条数据必须包含ID字段')
+    await Promise.all(params.map(async item => {
+      await putItem(item.id, item)
+    }))
+  } else {
+    // 数据校验
+    if (toType(params) !== 'object') ctx.throw(412, '更新数据，数据参数必须为对象')
+    delete params.id
+    if (!Object.keys(params).length) ctx.throw(412, '更新数据，数据对象不能为空')
+
+    if (id === 'first') {
+      // 未知ID单条数据修改
+      await putItem(id, params)
     } else {
-      await Promise.all(params.map(async item => {
-        await putItem(item.id, item)
+      // 多ID单数据修改 以及 单ID单数据修改
+      const ids = id.split(',')
+      await Promise.all(ids.map(async itemId => {
+        await putItem(itemId, params)
       }))
     }
-  } else {
-    // 多ID单数据修改 以及 单ID单数据修改
-    delete params.id
-    const ids = id.split(',')
-    await Promise.all(ids.map(async itemId => {
-      await putItem(itemId, params)
-    }))
   }
   return res
 }

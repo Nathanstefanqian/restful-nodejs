@@ -1,11 +1,11 @@
 // import Router from 'koa-router'   es6写法
 const Router = require('koa-router')
-const core = require(':core')
+const Core = require(':core')
 const models = require('../model')
 const { API_PREFIX } = require(':config')
-const { getJSFile } = global.tool
+const { getJSFile, objKeyLower } = global.tool
 const extraAPI = getJSFile('../api/extra')
-
+const Authentication = require(':core/authentication')
 /*
   获取数据库模型数据，并输出为对象
   {
@@ -63,15 +63,20 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
   const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
+  // 查看当前所属角色
+  const roleName = Authentication(ctx, reqApiName, reqMethod)
+  console.log(roleName)
+  // 根据请求方法整理参数
+  const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
   if (extraAPI.includes(reqApiName)) {
     // 拓展接口直接调用拓展文件并执行
-    await require(':api/extra/' + reqApiName)(ctx, next)
+    await require(':api/extra/' + reqApiName)(ctx, reqParams, next)
   } else if (Object.keys(RestFulModel).includes(reqApiName)) {
     // 标准RESTFUL 查询
     const reqModelName = RestFulModel[reqApiName]
-    await core(ctx, reqModelName, reqMethod, reqApiName, reqId, next)
+    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, reqId, next)
   } else {
-    ctx.throw(404, '没有找到哦')
+    ctx.throw(404, '没有找到该路由哦')
   }
 })
 

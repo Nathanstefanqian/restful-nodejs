@@ -1,7 +1,6 @@
 // const model = require('./model')
 const path = require('path')
 const Koa = require('koa')
-
 const koaJson = require('koa-json')
 // 最新版的koa-body为6.0.1  这里使用4.1.1
 const koaBody = require('koa-body')
@@ -46,6 +45,16 @@ app.on('error', (err, ctx) => {
 })
 app.use(accessLogger())
 
+// swagger文档配置项
+const swagger = require(':utils/swagger')
+app.use(swagger.routes(), swagger.allowedMethods())
+const koaSwagger = require('koa2-swagger-ui').koaSwagger
+app.use(koaSwagger({
+  routePrefix: '/swagger',
+  swaggerOptions: {
+    url: '/swagger.json' // 代表路由跳转后的地址
+  }
+}))
 app.listen(port, host,
   console.log(`RESTFul CMS api listening on http://${host}:${port}!`)
 )

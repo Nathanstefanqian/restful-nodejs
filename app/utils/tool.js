@@ -106,5 +106,6 @@ module.exports = {
   moveFile,
   objKeyLower,
   // 加载自定义校验工具
-  verify: require('./verify')
+  verify: require('./verify'),
+  rsa: require('./rsa')
 }

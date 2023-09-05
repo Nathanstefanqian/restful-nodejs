@@ -1,4 +1,4 @@
-const { logger } = global.tool
+const path = require('path')
 const DB_CONN_SQLITE = {
   host: 'localhost',
   dialect: 'sqlite',
@@ -9,10 +9,10 @@ const DB_CONN_SQLITE = {
     idle: 10000
   },
   storage: 'db/data.db',
-  // logging: false // 不打印数据库操作相关的信息
-  logging: function (sql) {
-    logger.info(sql)
-  }
+  logging: false // 不打印数据库操作相关的信息
+  // logging: function (sql) {
+  //   logger.info(sql)
+  // }
 }
 
 const DB_CONN_MYSQL = {
@@ -47,11 +47,21 @@ const DB_PREFIX = 'koa_'
 // 路由前缀
 const API_PREFIX = '/api/v1/'
 
+const PERMISSION = require('./permission')
+
+// 设置RSA密钥文件配置
+const KEY = {
+  RSA_PRIVATE_KEY_PATH: path.resolve(__dirname, './key/rsa_private_key.pem'),
+  RSA_PUBLIC_KEY_PATH: path.resolve(__dirname, './key/rsa_public_key.pem')
+}
+
 module.exports = {
   DB_CONN_SQLITE,
   DB_CONN_MYSQL,
   DB_PREFIX,
   APP_HOST,
   API_PREFIX,
-  PAGE_SIZE
+  PAGE_SIZE,
+  PERMISSION,
+  KEY
 }

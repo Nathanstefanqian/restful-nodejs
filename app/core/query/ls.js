@@ -14,6 +14,7 @@ const getArgs = (params) => {
   for (const i in params) {
     if (!['pagesize', 'page', 'time', 'sort'].includes(i)) args[i] = params[i]
   }
+  console.log('参数为', args)
   return args
 }
 
@@ -55,6 +56,7 @@ module.exports = async (ctx, model, method, params) => {
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
   if (!isNumber(pagesize) || !isNumber(page)) ctx.throw(412, '参数非法，pagesize和page只能是数字')
+
   // 构建基础where参数
   const condition = {
     where: {},
