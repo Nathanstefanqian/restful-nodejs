@@ -1,14 +1,15 @@
 const koaLog = require('koa-log4')
 const path = require('path')
 const fs = require('fs')
-
-const logDir = path.resolve(process.cwd(), './log')
-// 检查临时文件夹是否存在，不存在则创建  todo
-fs.access(logDir, err => {
+const { LOG_DIR } = require(':config').APP_DIR
+// 如果不存在则创建
+fs.access(LOG_DIR, err => {
   if (err) {
-    fs.mkdir(logDir, { recursive: true }, (err) => {
-      if (err) throw err
+    fs.mkdir(LOG_DIR, { recursive: true }, err => {
+      console.error(err)
     })
+  } else {
+    console.error(err)
   }
 })
 
@@ -17,12 +18,12 @@ koaLog.configure({
     access: {
       type: 'dateFile',
       pattern: '-yyyy-MM-dd.log', // 生成文件名的规则
-      filename: path.resolve(logDir, 'access.log') // 生成文件名
+      filename: path.resolve(LOG_DIR, 'access.log') // 生成文件名
     },
     application: {
       type: 'dateFile',
       pattern: '-yyyy-MM-dd.log',
-      filename: path.resolve(logDir, 'application.log')
+      filename: path.resolve(LOG_DIR, 'application.log')
     },
     out: {
       type: 'console'

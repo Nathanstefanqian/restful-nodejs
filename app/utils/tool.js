@@ -95,6 +95,29 @@ const objKeyLower = o => {
   return res
 }
 
+// 读取文本文件
+const readTextFile = path => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) reject(err)
+      resolve(data)
+    })
+  })
+}
+
+// 删除文件
+const deleteFile = path => {
+  return new Promise((resolve, reject) => {
+    if (!isInRootPath(path)) {
+      reject(new Error('不支持在项目根目录以外删除文件或文件夹！'))
+    }
+    fs.unlink(path, (err, data) => {
+      if (err) reject(err)
+      resolve('succ')
+    })
+  })
+}
+
 module.exports = {
   getJSFile,
   succ,
@@ -104,6 +127,8 @@ module.exports = {
   isInRootPath,
   makeDir,
   moveFile,
+  readTextFile,
+  deleteFile,
   objKeyLower,
   // 加载自定义校验工具
   verify: require('./verify'),

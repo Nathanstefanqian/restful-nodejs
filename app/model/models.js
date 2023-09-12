@@ -54,5 +54,15 @@ module.exports = {
     email: privateTypes.Email,
     website: privateTypes.Url,
     time: privateTypes.Date
+  },
+  // 站点信息
+  Site: {
+    name: STRING, // 站点名称
+    title: STRING, // 站点标题
+    logo: STRING, // 站点logo
+    keywords: TEXT, // 站点关键词
+    description: TEXT, // 站点描述
+    copyright: TEXT, // 站点版权
+    time: privateTypes.Date
   }
 }

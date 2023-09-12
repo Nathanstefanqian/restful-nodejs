@@ -49,6 +49,11 @@ const API_PREFIX = '/api/v1/'
 
 const PERMISSION = require('./permission')
 
+const APP_DIR = {
+  TMP_DIR: path.resolve(process.cwd(), './tmp'),
+  LOG_DIR: path.resolve(process.cwd(), './log')
+}
+
 // 设置RSA密钥文件配置
 const KEY = {
   RSA_PRIVATE_KEY_PATH: path.resolve(__dirname, './key/rsa_private_key.pem'),
@@ -63,5 +68,6 @@ module.exports = {
   API_PREFIX,
   PAGE_SIZE,
   PERMISSION,
-  KEY
+  KEY,
+  APP_DIR
 }

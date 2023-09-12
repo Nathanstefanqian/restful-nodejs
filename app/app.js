@@ -33,17 +33,17 @@ const router = require(':router')
 // 创建app并注册各种中间件
 const app = new Koa()
 app.use(koaError)
-app.use(staticFiles(path.resolve(__dirname, '../static')))
+app.use(accessLogger())
+app.use(staticFiles(path.resolve(process.cwd(), './static')))
 app.use(koaBody(configKoaBody))
 app.use(koaJson({ pretty: true, param: 'pretty' }))
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.on('error', (err, ctx) => {
   // 通过监听error事件，来捕获其中的错误
-  console.log(err)
+  console.error('监听到error事件', err)
   logger.error(err)
 })
-app.use(accessLogger())
 
 // swagger文档配置项
 const swagger = require(':utils/swagger')

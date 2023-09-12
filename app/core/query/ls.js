@@ -2,8 +2,7 @@
 /*
 /apiname?a=1,2,3,4,5&sort=
 */
-
-const { Op } = require('Sequelize')
+const { Op } = require('sequelize')
 const models = require(':model')
 const { PAGE_SIZE } = require(':config')
 const { isNumber } = global.tool.verify

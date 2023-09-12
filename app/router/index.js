@@ -19,7 +19,6 @@ const RestFulModel = (() => {
   Object.keys(models).forEach(i => {
     res[i.toLocaleLowerCase()] = i
   })
-  console.log('模型', res)
   return res
 })()
 
@@ -56,16 +55,14 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   // 获取路由名
   // 根据请求path获取请求apiname以及请求 id，并判断path是否合法
   const reqPath = ctx.request.path.replace(new RegExp(API_PREFIX), '')
-  console.log(reqPath.split('/').map(i => i.toLocaleLowerCase()))
   const [reqApiName, reqId, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
   // reqApiName代表路由名， reqId代表/:id，errPath代表多余的路由
-  console.log(reqApiName, reqId, errPath)
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
   const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
   // 查看当前所属角色
-  const roleName = Authentication(ctx, reqApiName, reqMethod)
-  console.log(roleName)
+  const roleName = await Authentication(ctx, reqApiName, reqMethod)
+  console.log('当前请求用户的角色为', roleName)
   // 根据请求方法整理参数
   const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
   if (extraAPI.includes(reqApiName)) {
