@@ -1,3 +1,4 @@
+// 当前三种角色类别 小编，管理员，任何人
 const ls = 'ls'
 const get = 'get'
 const put = 'put'
@@ -8,27 +9,23 @@ const nil = []
 const anyone = [ls, get]
 const editor = [ls, get, put, post]
 const admin = [ls, get, put, post, del]
+
+const normal = { anyone, editor, admin }
+const onlyRead = { anyone: [ls], editor: [ls], admin: [ls] }
+const onlyPost = { anyone: [post], editor: [post], admin: [post] }
 // 导出接口权限
 module.exports = {
-  article: { anyone, editor, admin },
-  channel: { anyone, editor, admin },
-  admin: {
-    anyone: nil, editor: nil, admin
-  },
-  site: {
-    anyone: [ls], editor: [ls], admin
-  },
-  author: { anyone, editor, admin },
-  origin: { anyone, editor, admin },
-  editor: { anyone, editor, admin },
-  tags: { anyone, editor, admin },
-  upload: {
-    anyone: nil, editor: [post], admin: [post]
-  },
-  login: {
-    anyone: [post], editor: [post], admin: [post]
-  },
-  logout: {
-    anyone: [ls], editor: [ls], admin: [ls]
-  }
+  article: normal,
+  channel: normal,
+  admin: { anyone: nil, editor: nil, admin },
+  site: { anyone: [ls], editor: [ls], admin },
+  author: normal,
+  origin: normal,
+  editor: normal,
+  tags: normal,
+  upload: { anyone: nil, editor: [post], admin: [post] },
+  login: onlyPost,
+  logout: onlyRead,
+  tree_channel: onlyRead,
+  rsa_public_key: onlyRead
 }

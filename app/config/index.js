@@ -1,36 +1,6 @@
 const path = require('path')
-const DB_CONN_SQLITE = {
-  host: 'localhost',
-  dialect: 'sqlite',
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  },
-  storage: 'db/data.db',
-  logging: false // 不打印数据库操作相关的信息
-  // logging: function (sql) {
-  //   logger.info(sql)
-  // }
-}
-
-const DB_CONN_MYSQL = {
-  database: 'restful',
-  username: 'root',
-  password: 'Qlj20020503@', // 别试了 误推 密码已经改了
-  host: '47.96.156.243',
-  port: 3306,
-  dialect: 'mysql',
-  logging: false,
-  timezone: '+00:00',
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-}
+const PERMISSION = require('./permission')
+const { DB_CONN_SQLITE, DB_CONN_MYSQL, DB_PREFIX } = require('./database')
 
 // app 运行设置
 const APP_HOST = {
@@ -41,14 +11,10 @@ const APP_HOST = {
 // 分页列表默认每页条数
 const PAGE_SIZE = 10
 
-// 表名前缀
-const DB_PREFIX = 'koa_'
-
 // 路由前缀
 const API_PREFIX = '/api/v1/'
 
-const PERMISSION = require('./permission')
-
+// 存储目录路径
 const APP_DIR = {
   TMP_DIR: path.resolve(process.cwd(), './tmp'),
   LOG_DIR: path.resolve(process.cwd(), './log')
@@ -60,14 +26,18 @@ const KEY = {
   RSA_PUBLIC_KEY_PATH: path.resolve(__dirname, './key/rsa_public_key.pem')
 }
 
+// 初始化数据库时是否添加测试数据
+const IS_POST_TEST_DB = true
+
 module.exports = {
-  DB_CONN_SQLITE,
   DB_CONN_MYSQL,
+  DB_CONN_SQLITE,
   DB_PREFIX,
   APP_HOST,
   API_PREFIX,
   PAGE_SIZE,
   PERMISSION,
   KEY,
-  APP_DIR
+  APP_DIR,
+  IS_POST_TEST_DB
 }

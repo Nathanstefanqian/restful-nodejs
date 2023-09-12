@@ -17,7 +17,8 @@ bestRequire(process.cwd(), {
   middle: ':@/middle',
   core: ':@/core',
   api: ':@/api',
-  model: ':@/model'
+  model: ':@/model',
+  query: ':@/core/query'
 })
 global.tool = require(':utils/tool')
 // 引入配置

@@ -54,6 +54,7 @@ module.exports = async (ctx, model, method, params) => {
   model = models[model]
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
+  console.log(isNumber(pagesize), page)
   if (!isNumber(pagesize) || !isNumber(page)) ctx.throw(412, '参数非法，pagesize和page只能是数字')
 
   // 构建基础where参数
@@ -104,7 +105,7 @@ module.exports = async (ctx, model, method, params) => {
     }
     condition.where.time = {
       [Op.gte]: st,
-      [Op.lt]: et
+      [Op.lte]: et
     }
   }
 

@@ -8,7 +8,7 @@ module.exports = async (ctx, params, next) => {
   // 校验登录角色参数
   if (!['admin', 'editor'].includes(role)) ctx.throw(400, '用户角色参数错误')
   // 校验传入密码是否能解密，如能解密则赋值 reqPw
-  const reqPw = await rsa.decrypt(password).catch(e => ctx.throw(400, '用户名密码错误'))
+  const reqPw = await rsa.decrypt(password).catch(e => ctx.throw(400, '用户名密码错误' + e))
   // 从数据库存储用户信息，根据不同角色，从不同表内读取
   const dbUser = await getItem(role === 'admin' ? 'Admin' : 'Editor', { account })
   // 校验传入用户是否存在

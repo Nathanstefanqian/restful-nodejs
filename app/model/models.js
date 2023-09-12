@@ -44,6 +44,15 @@ module.exports = {
     website: privateTypes.Url,
     time: privateTypes.Date
   },
+  // 文章栏目
+  Channel: {
+    pid: INTEGER, // 归属父ID
+    name: STRING, // 栏目名称
+    sort: INTEGER, // 栏目排序
+    keywords: STRING, // 栏目关键词
+    description: TEXT, // 栏目描述
+    time: privateTypes.Date
+  },
   // 文章小编
   Editor: {
     account: STRING,

@@ -1,6 +1,7 @@
 // 注册不同的方法对应的查询
 const { toType } = global.tool
 
+const { IS_POST_TEST_DB } = require(':config')
 const ls = require('./ls')
 const post = require('./post')
 const get = require('./get')
@@ -12,10 +13,13 @@ const getList = async (model, params) => await ls({}, model, '', params)
 
 // 系统内部查询单条数据方法
 const getItem = async (model, params) => {
+  console.log('model', model, 'params', params)
   if (toType(params) === 'object') {
     const res = await getList(model, params)
     if (res.list.length) {
-      return res.list[0].dataValues
+      // todo 这里存在一个问题
+      // return res.list[0].dataValues
+      return res.list[0]
     } else {
       return null
     }
@@ -49,11 +53,27 @@ const initDb = async () => {
       keywords: 'RESTFul,CMS,koa',
       copyright: 'By FungLeo'
     }).then(() => {
-      console.log('初始系统信息完成')
+      console.log('初始系统信息数据完成')
+    })
+  }
+  const hasChan = await getItem('Channel', 'first')
+  if (!hasChan) {
+    const calcchannelMockDat = (pid, pre = '顶级') => {
+      return 'leo'.split('').map((i, index) => {
+        return { pid, name: `${pre}栏目${pid}${index}` }
+      })
+    }
+    const { ids } = await postItem('Channel', calcchannelMockDat(0))
+    ids.forEach(async i => {
+      const { ids } = await postItem('Channel', calcchannelMockDat(i, '二级'))
+      ids.forEach(async i => {
+        await postItem('Channel', calcchannelMockDat(i, '三级'))
+        console.log('初始测试栏目数据完成')
+      })
     })
   }
 }
-initDb()
+IS_POST_TEST_DB && initDb()
 
 module.exports = {
   ls,

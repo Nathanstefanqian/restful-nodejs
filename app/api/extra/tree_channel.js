@@ -1,0 +1,24 @@
+// 树型栏目菜单接口
+const { succ } = global.tool
+const { getList } = require(':query')
+module.exports = async (ctx, params, next) => {
+  // 从栏目表拿出所有的栏目数据
+  const { list } = await getList('Channel', { pagesize: -1 })
+  // 递归函数
+  const makeTree = (pid, arr) => {
+    const res = []
+    for (const i of arr) {
+      // 直接构成 element 等 vue 框架默认的数据格式，避免前端需要进行转化
+      const obj = { value: i.id, label: i.name }
+      if (i.pid === pid) {
+        const child = makeTree(i.id, arr)
+        if (child.length) obj.children = child
+        res.push(obj)
+      }
+    }
+    return res
+  }
+  // 得到结果并返回
+  const tree = makeTree(0, list)
+  ctx.body = succ(tree)
+}
