@@ -67,11 +67,11 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
   if (extraAPI.includes(reqApiName)) {
     // 拓展接口直接调用拓展文件并执行
-    await require(':api/extra/' + reqApiName)(ctx, reqParams, next)
+    await require(':api/extra/' + reqApiName)(ctx, reqParams, roleName, next)
   } else if (Object.keys(RestFulModel).includes(reqApiName)) {
     // 标准RESTFUL 查询
     const reqModelName = RestFulModel[reqApiName]
-    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, reqId, next)
+    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, roleName, reqId, next)
   } else {
     ctx.throw(404, '没有找到该路由哦')
   }

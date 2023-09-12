@@ -3,7 +3,7 @@
 const { getToken } = require(':core/session')
 const { getItem } = require(':query')
 const { succ } = global.tool
-module.exports = async (ctx, params, next) => {
+module.exports = async (ctx, params, roleName, next) => {
   // 校验 token 是否存在
   const token = ctx.header.token || ctx.cookies.get('token') || ''
   if (!token) ctx.throw(401, '请重新登录')

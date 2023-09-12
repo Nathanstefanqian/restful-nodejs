@@ -16,7 +16,7 @@ const { TMP_DIR } = APP_DIR
 // 存储token
 const setToken = async (role, account, token, time) => {
   const types = {
-    async memory() { // eslint-disable-line
+    async memory() {
       if (!global.session) global.session = {}
       global.session[token] = {
         role,
@@ -24,7 +24,7 @@ const setToken = async (role, account, token, time) => {
         time
       }
     },
-    async file() { // eslint-disable-line
+    async file() {
       const filename = `session_||${token}`
       const filePath = path.resolve(TMP_DIR, filename)
       const fileContent = `${role}||${account}||${token}||${time}`
@@ -39,11 +39,11 @@ const setToken = async (role, account, token, time) => {
 // 读取 token并返回结果
 const getToken = async token => {
   const types = {
-    async memory() { // eslint-disable-line
+    async memory() {
       if (!global.session) global.session = {}
       return global.session[token] || {}
     },
-    async file() { // eslint-disable-line
+    async file() {
       const filename = `session_||${token}`
       const filePath = path.resolve(TMP_DIR, filename)
       const data = await readTextFile(filePath).catch(() => false)
@@ -62,11 +62,11 @@ const getToken = async token => {
 // 删除 token
 const removeToken = async token => {
   const types = {
-    async memory() { // eslint-disable-line
+    async memory() {
       if (!global.session) global.session = {}
       delete global.session[token]
     },
-    async file() { // eslint-disable-line
+    async file() {
       const filename = `session_||${token}`
       const filePath = path.resolve(TMP_DIR, filename)
       const res = await deleteFile(filePath).catch(() => false)
@@ -91,6 +91,7 @@ const checkToken = async token => {
       const { role, account, time } = tokenSave
       const now = +new Date()
       if ((now - time) <= 86400000) {
+        // token更新时间为1天
         res = { role, account }
       }
     }

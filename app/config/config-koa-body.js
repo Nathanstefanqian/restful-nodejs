@@ -11,7 +11,7 @@ module.exports = {
     hash: 'md5',
     maxFieldsSize: 4 * 1024 * 1024, // 表单字段最大尺寸
     maxFileSize: 2 * 1024 * 1024, // 单个文件最大尺寸
-    onFileBegin(name, file) {  // eslint-disable-line
+    onFileBegin(name, file) {
       global.tmpFileUrl = global.tmpFileUrl || 0
       file.path = TMP_DIR + '/upfile_' + global.tmpFileUrl
       // 每10个文件为一个文件夹 ？todo
@@ -19,7 +19,7 @@ module.exports = {
     },
     keepExtensions: false
   },
-  onError(err, ctx) {  // eslint-disable-line
+  onError(err, ctx) {
     console.log('请求体传入发现问题', err)
     // ctx.throw(413, '文件超过限额大小！')
     ctx.throw(500, '服务器故障')

@@ -16,5 +16,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    "space-before-function-paren": "off"
   }
 }

@@ -19,31 +19,31 @@ const getArgs = (params) => {
 
 // 非标配置项处理字典
 const ArgHandle = {
-  like(arg) { // eslint-disable-line
+  like(arg) {
     // 模糊查询
     return { [Op.like]: `%${arg}&` }
   },
-  neq(arg) { // eslint-disable-line
+  neq(arg) {
     // 不等查询
     return { [Op.ne]: arg }
   },
-  gteq(arg) { // eslint-disable-line
+  gteq(arg) {
     // 大于等于查询
     return { [Op.gte]: arg }
   },
-  lt(arg) { // eslint-disable-line
+  lt(arg) {
     // 小于查询
     return { [Op.lt]: arg }
   },
-  lteq(arg) { // eslint-disable-line
+  lteq(arg) {
     // 小于等于查询
     return { [Op.lte]: arg }
   },
-  in(arg) { // eslint-disable-line
+  in(arg) {
     // in 查询 （和 无 argConf 查询多条记录是一样的）
     return { [Op.in]: arg.split(',') }
   },
-  nin(arg) { // eslint-disable-line
+  nin(arg) {
     // notIn 查询
     return { [Op.notIn]: arg.split(',') }
   }
