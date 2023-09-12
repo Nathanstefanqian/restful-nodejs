@@ -32,7 +32,8 @@ module.exports = {
     name: STRING, // 姓名
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
-    time: privateTypes.Date
+    time: privateTypes.Date,
+    avatar: STRING // 头像
   },
   // 作者
   Author: {

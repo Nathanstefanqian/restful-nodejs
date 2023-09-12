@@ -54,7 +54,6 @@ module.exports = async (ctx, model, method, params) => {
   model = models[model]
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
-  console.log(isNumber(pagesize), page)
   if (!isNumber(pagesize) || !isNumber(page)) ctx.throw(412, '参数非法，pagesize和page只能是数字')
 
   // 构建基础where参数
@@ -122,7 +121,7 @@ module.exports = async (ctx, model, method, params) => {
       支持 a = 1,2,3,4,5多个相等条件查询
       会被解析为 in查询
        */
-      const argArr = args[i].split(',')
+      const argArr = (args[i] || '').split(',')
       condition.where[fieldName] = argArr.length === 1 ? args[i] : { [Op.in]: argArr }
     } else {
       // 处理配置查询参数

@@ -41,7 +41,7 @@ const getToken = async token => {
   const types = {
     async memory() { // eslint-disable-line
       if (!global.session) global.session = {}
-      return global.session[token]
+      return global.session[token] || {}
     },
     async file() { // eslint-disable-line
       const filename = `session_||${token}`
@@ -50,6 +50,8 @@ const getToken = async token => {
       if (data) {
         const [role, account, token, time] = data.split('||')
         return { role, account, token, time }
+      } else {
+        return {}
       }
     }
   }

@@ -13,7 +13,6 @@ const getList = async (model, params) => await ls({}, model, '', params)
 
 // 系统内部查询单条数据方法
 const getItem = async (model, params) => {
-  console.log('model', model, 'params', params)
   if (toType(params) === 'object') {
     const res = await getList(model, params)
     if (res.list.length) {
