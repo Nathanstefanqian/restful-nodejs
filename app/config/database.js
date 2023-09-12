@@ -7,7 +7,7 @@ const DB_CONN_SQLITE = {
     acquire: 30000,
     idle: 10000
   },
-  query: { raw: true },
+  query: { raw: true }, // 执行原始的sql语句
   storage: 'db/data.db',
   logging: false // 不打印数据库操作相关的信息
   // logging: function (sql) {
