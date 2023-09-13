@@ -1,7 +1,7 @@
 // 树型栏目菜单接口
 const { succ } = global.tool
 const { getList } = require(':query')
-module.exports = async (ctx, params, roleName, next) => {
+module.exports = async ctx => {
   // 从栏目表拿出所有的栏目数据
   const { list } = await getList('Channel', { pagesize: -1, sort: '-sort,-id' })
   // 递归函数

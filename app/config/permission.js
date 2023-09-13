@@ -18,7 +18,7 @@ module.exports = {
   article: normal,
   channel: normal,
   admin: { anyone: nil, editor: nil, admin },
-  site: { anyone: [ls], editor: [ls], admin },
+  site: { anyone: [ls], editor: [ls], admin: [ls, get, put] },
   author: normal,
   origin: normal,
   editor: normal,
@@ -28,5 +28,6 @@ module.exports = {
   logout: onlyRead,
   tree_channel: onlyRead,
   rsa_public_key: onlyRead,
-  profile: onlyRead
+  profile: { anyone: nil, editor, admin: editor },
+  change_password: { anyone: nil, editor: [post], admin: [post] }
 }

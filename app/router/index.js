@@ -22,10 +22,10 @@ const RestFulModel = (() => {
   return res
 })()
 
-const calcMethodAndCheckUrl = (reqApiName, reqId, ctx) => {
+const calcMethodAndCheckUrl = (apiName, id, ctx) => {
   const { method } = ctx.request
   let reqMethod = method.toLocaleLowerCase()
-  if (reqId) {
+  if (id) {
     if (method === 'POST') ctx.throw(405)
     if (method === 'DELETE') reqMethod = 'del'
   } else {
@@ -55,23 +55,25 @@ router.all(API_PREFIX + '*', async (ctx, next) => {
   // 获取路由名
   // 根据请求path获取请求apiname以及请求 id，并判断path是否合法
   const reqPath = ctx.request.path.replace(new RegExp(API_PREFIX), '')
-  const [reqApiName, reqId, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
-  // reqApiName代表路由名， reqId代表/:id，errPath代表多余的路由
+  const [apiName, id, errPath] = reqPath.split('/').map(i => i.toLocaleLowerCase())
+  // apiName代表路由名， id代表/:id，errPath代表多余的路由
   if (errPath) ctx.throw(400, '请求路径不支持')
   // 根据请求计算内置请求方法
-  const reqMethod = calcMethodAndCheckUrl(reqApiName, reqId, ctx)
+  const method = calcMethodAndCheckUrl(apiName, id, ctx)
   // 查看当前所属角色
-  const roleName = await Authentication(ctx, reqApiName, reqMethod)
+  const { roleName, token } = await Authentication(ctx, apiName, method)
   console.log('当前请求用户的角色为', roleName)
   // 根据请求方法整理参数
-  const reqParams = reqMethod === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
-  if (extraAPI.includes(reqApiName)) {
+  const params = method === 'ls' ? objKeyLower(ctx.request.query) : ctx.request.body
+  const allParams = { apiName, params, roleName, method, id, token }
+  if (extraAPI.includes(apiName)) {
     // 拓展接口直接调用拓展文件并执行
-    await require(':api/extra/' + reqApiName)(ctx, reqParams, roleName, next)
-  } else if (Object.keys(RestFulModel).includes(reqApiName)) {
+    await require(':api/extra/' + apiName)(ctx, allParams, next)
+  } else if (Object.keys(RestFulModel).includes(apiName)) {
     // 标准RESTFUL 查询
-    const reqModelName = RestFulModel[reqApiName]
-    await Core(ctx, reqParams, reqModelName, reqMethod, reqApiName, roleName, reqId, next)
+    const model = RestFulModel[apiName]
+    allParams.model = model
+    await Core(ctx, allParams, next)
   } else {
     ctx.throw(404, '没有找到该路由哦')
   }

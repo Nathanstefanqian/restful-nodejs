@@ -29,5 +29,5 @@ module.exports = async (ctx, apiName, method) => {
      */
     ctx.throw(404, '该角色没有权限哦！')
   }
-  return roleName
+  return { roleName, token }
 }

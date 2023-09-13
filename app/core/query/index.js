@@ -7,17 +7,16 @@ const post = require('./post')
 const get = require('./get')
 const put = require('./put')
 const del = require('./del')
+const { getStrMd5, getStrSha256 } = require(':utils/hash')
 
 // 系统内部查询数据列表方法
 const getList = async (model, params) => await ls({}, model, '', params)
 
 // 系统内部查询单条数据方法
-const getItem = async (model, params) => {
+const getItem = async (model, params = {}) => {
   if (toType(params) === 'object') {
     const res = await getList(model, params)
     if (res.list.length) {
-      // todo 这里存在一个问题
-      // return res.list[0].dataValues
       return res.list[0]
     } else {
       return null
@@ -25,6 +24,11 @@ const getItem = async (model, params) => {
   } else {
     return await get({}, model, '', {}, params)
   }
+}
+// 系统内部修改数据方法
+const putItem = async (model, id, params) => {
+  const res = await put({}, model, '', params, id)
+  return res
 }
 
 // 系统内部添加新数据方法
@@ -36,10 +40,15 @@ const postItem = async (model, params) => {
 // 初始化空数据时添加默认的数据方法
 const initDb = async () => {
   const hasManage = await getItem('Admin', 'first')
+  const salt = getStrMd5(String(Math.random()))
+  const password = getStrSha256('123456' + salt)
   if (!hasManage) {
     postItem('Admin', {
       account: 'admin',
-      password: 'DQnIHd5oupt/oZvkBQ/qvgl1gXTK3NwDJVYjxnyG2zXSa3debJ5yIX/jDzSc3SGK+adHUOxWllQa8leLcCCbOhdB89YbGicESufr086xWaWDx0fPsELTRUTT0yWQLUJDVT1WrnHQqAMsI+KgM/28zULWgkrqj190O4oBBgwwGLc='
+      password,
+      salt,
+      email: '1532722889@qq.com',
+      mark: '系统初始管理员账号'
     }).then(() => {
       console.log('初始管理员账号添加完成 admin: 123456')
     })
@@ -48,9 +57,9 @@ const initDb = async () => {
   if (!hasSite) {
     postItem('Site', {
       name: 'RESTFul CMS koa By Nathan',
-      title: 'RESTFul CMS koa By FungLeo',
+      title: 'RESTFul CMS koa By Nathan',
       keywords: 'RESTFul,CMS,koa',
-      copyright: 'By FungLeo'
+      copyright: 'By Nathan'
     }).then(() => {
       console.log('初始系统信息数据完成')
     })
@@ -82,5 +91,6 @@ module.exports = {
   del,
   getList,
   getItem,
-  postItem
+  postItem,
+  putItem
 }

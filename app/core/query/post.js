@@ -8,18 +8,23 @@
     DATA:   [{...}, {...}, {...}, {...}]
 */
 const models = require(':model')
-const { toType } = global.tool
+const { toType, filterObjectXss } = global.tool
 module.exports = async (ctx, model, method, params) => {
-  if (toType(params) === 'object') params = [params] // 如果是单条数据，转化为列表的形式，共用后续处理
+  // 如果是单条数据，则转化为多条数据，共用后续处理
+  if (toType(params) === 'object') params = [params]
   // 数据基本格式校验
   params.forEach(r => {
     if (r.id) ctx.throw(412, '添加新数据，数据不得包含ID字段')
     if (Object.keys(r).length === 0) ctx.throw(412, '添加新数据，数据不得为空')
   })
-  const result = { ids: [] }
+
+  const res = { ids: [] }
   await Promise.all(params.map(async item => {
-    const id = await models[model].create(item).then(r => r.id)
-    result.ids.push(id)
+    item = filterObjectXss(item)
+    const id = await models[model]
+      .create(item)
+      .then(r => r.id)
+    res.ids.push(id)
   }))
-  return result
+  return res
 }

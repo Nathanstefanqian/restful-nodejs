@@ -1,5 +1,5 @@
 module.exports = {
-  ls(data, role, ctx) {
+  ls(data, ctx, allParams) {
     data.list.map(r => {
       delete r.password
     })
