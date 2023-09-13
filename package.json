@@ -2,10 +2,10 @@
   "name": "restful-nodejs",
   "version": "1.0.0",
   "description": "a simple and easy restful api based on koa + nodejs",
-  "main": "app/app.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app/app.js",
-    "start": "node app/app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "keywords": [
     "nodejs",
