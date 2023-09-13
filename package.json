@@ -34,5 +34,12 @@
     "eslint": "^6.8.0",
     "nodemon": "^3.0.1",
     "standard": "^14.3.4"
-  }
+  },
+  "pkg": {
+    "output": "restful-cms-koa",
+    "targets": [
+      "node10-macos-x64"
+    ]
+  },
+  "bin": "app.js"
 }

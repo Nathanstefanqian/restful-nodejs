@@ -118,6 +118,14 @@ const deleteFile = path => {
   })
 }
 
+const sleep = async time => {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      resolve()
+    }, time)
+  })
+}
+
 module.exports = {
   getJSFile,
   succ,
@@ -130,6 +138,7 @@ module.exports = {
   readTextFile,
   deleteFile,
   objKeyLower,
+  sleep,
   // 加载自定义校验工具
   verify: require('./verify'),
   rsa: require('./rsa')

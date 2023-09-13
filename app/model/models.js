@@ -25,7 +25,11 @@ const privateTypes = {
     type: INTEGER,
     defaultValue: () => +new Date()
   },
-  Zero: {
+  Hits: {
+    type: INTEGER,
+    defaultValue: 0
+  },
+  Sort: {
     type: INTEGER,
     defaultValue: 0
   },
@@ -41,10 +45,10 @@ module.exports = {
     account: STRING, // 超级管理员账号
     password: TEXT, // 超级管理员密码
     name: STRING, // 姓名
+    avatar: STRING, // 头像
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
-    time: privateTypes.Date,
-    avatar: STRING // 头像
+    time: privateTypes.Date
   },
   // 作者
   Author: {
@@ -60,7 +64,7 @@ module.exports = {
   Channel: {
     pid: INTEGER, // 归属父ID
     name: STRING, // 栏目名称
-    sort: privateTypes.Zero, // 栏目排序
+    sort: privateTypes.Sort, // 栏目排序
     keywords: STRING, // 栏目关键词
     description: TEXT, // 栏目描述
     time: privateTypes.Date
@@ -71,6 +75,7 @@ module.exports = {
     password: TEXT,
     name: STRING,
     avatar: STRING,
+    mark: TEXT,
     mobile: privateTypes.Mobile,
     email: privateTypes.Email,
     website: privateTypes.Url,
@@ -97,14 +102,25 @@ module.exports = {
     author: STRING, // 文章作者
     origin: STRING, // 文章来源
     editor: STRING, // 文章编辑
-    hits: privateTypes.Zero, // 文章点击热度
+    hits: privateTypes.Hits, // 文章点击热度
     status: privateTypes.Status, // 文章状态
     time: privateTypes.Date // 文章时间
+  },
+  // 来源
+  Origin: {
+    name: STRING,
+    logo: STRING,
+    mark: TEXT,
+    contact: STRING,
+    mobile: privateTypes.Mobile,
+    email: privateTypes.Email,
+    website: privateTypes.Url,
+    time: privateTypes.Date
   },
   Tags: {
     tag: STRING,
     channel_id: INTEGER,
-    hits: privateTypes.Zero,
+    hits: privateTypes.Hits,
     time: privateTypes.Date
   }
 }

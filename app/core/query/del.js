@@ -10,7 +10,7 @@ module.exports = async (ctx, model, method, params, id) => {
   const res = { succ: [], fail: [] }
   const ids = id.split(',')
   await Promise.all(ids.map(async id => {
-    const data = await models[model].findOne({ where: { id } }).catch(e => logger.error(e.message))
+    const data = await models[model].findOne({ where: { id }, raw: false }).catch(e => logger.error(e.message))
     if (data) {
       await data.destroy() // 硬删除
       res.succ.push(data.id)
