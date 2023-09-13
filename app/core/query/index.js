@@ -72,7 +72,7 @@ const initDb = async () => {
     })
   }
 }
-IS_POST_TEST_DB && initDb()
+IS_POST_TEST_DB && setTimeout(() => initDb(), 2000)
 
 module.exports = {
   ls,

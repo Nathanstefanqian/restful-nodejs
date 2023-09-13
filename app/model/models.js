@@ -21,7 +21,18 @@ const privateTypes = {
       isEmail: true
     }
   },
-  Date: { type: INTEGER, defaultValue: () => +new Date() }
+  Date: {
+    type: INTEGER,
+    defaultValue: () => +new Date()
+  },
+  Zero: {
+    type: INTEGER,
+    defaultValue: 0
+  },
+  Status: {
+    type: STRING,
+    defaultValue: 'NORMAL'
+  }
 }
 // 定义了三种角色
 module.exports = {
@@ -49,7 +60,7 @@ module.exports = {
   Channel: {
     pid: INTEGER, // 归属父ID
     name: STRING, // 栏目名称
-    sort: INTEGER, // 栏目排序
+    sort: privateTypes.Zero, // 栏目排序
     keywords: STRING, // 栏目关键词
     description: TEXT, // 栏目描述
     time: privateTypes.Date
@@ -73,6 +84,27 @@ module.exports = {
     keywords: TEXT, // 站点关键词
     description: TEXT, // 站点描述
     copyright: TEXT, // 站点版权
+    time: privateTypes.Date
+  },
+  Article: {
+    title: STRING, // 文章标题
+    channel_id: INTEGER, // 归属栏目ID
+    description: TEXT, // 文章描述
+    tags: TEXT, // 文章 Tag
+    content: TEXT, // 正文
+    markdown: TEXT, // markdown 格式正文
+    img: STRING, // 文章封面图片
+    author: STRING, // 文章作者
+    origin: STRING, // 文章来源
+    editor: STRING, // 文章编辑
+    hits: privateTypes.Zero, // 文章点击热度
+    status: privateTypes.Status, // 文章状态
+    time: privateTypes.Date // 文章时间
+  },
+  Tags: {
+    tag: STRING,
+    channel_id: INTEGER,
+    hits: privateTypes.Zero,
     time: privateTypes.Date
   }
 }
