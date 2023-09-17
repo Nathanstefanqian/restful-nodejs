@@ -10,15 +10,15 @@ module.exports = async (ctx, { params }, next) => {
   // 校验登录角色参数
   if (!['admin', 'editor'].includes(role)) ctx.throw(400, '用户角色参数错误')
   // 校验传入密码是否能解密，如能解密则赋值 reqPw
-  const reqPw = await rsa.decrypt(password).catch(e => ctx.throw(400, '用户名密码错误'))
+  const reqPw = await rsa.decrypt(password).catch(e => ctx.throw(400, '无法解密，请检查公钥是否正确'))
   // 从数据库存储用户信息，根据不同角色，从不同表内读取
-  const dbUser = await getItem(role === 'admin' ? 'Manages' : 'Editor', { account })
+  const dbUser = await getItem(role === 'admin' ? 'Admin' : 'Editor', { account })
   // 校验传入用户名是否存在
-  if (!dbUser) ctx.throw(400, '用户名密码错误')
+  if (!dbUser) ctx.throw(400, '用户名不存在')
   // 将传入的密码加盐，取 sha256 值
   const hashPw = getStrSha256(reqPw + dbUser.salt)
   // 和数据库中存储的哈希值进行比对
-  if (dbUser.password !== hashPw) ctx.throw(400, '用户名密码错误')
+  if (dbUser.password !== hashPw) ctx.throw(400, '密码不正确')
 
   // 用户通过校验
   const token = await makeToken(role, account, dbUser.id)

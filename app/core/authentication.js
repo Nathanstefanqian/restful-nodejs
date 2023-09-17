@@ -8,10 +8,8 @@ module.exports = async (ctx, apiName, method) => {
   const token = ctx.header.token || ctx.cookies.get('token') || ''
   const tokenCheckRes = await checkToken(token)
   const reqRoleName = tokenCheckRes ? tokenCheckRes.role : ''
-  console.log('角色', reqRoleName)
+  console.log('当前请求角色', reqRoleName)
   const roleName = ['editor', 'admin'].includes(reqRoleName) ? reqRoleName : 'anyone'
-  // console.log('权限列表', PERMISSION)
-  // 从权限配置名单中，读取对应的接口的配置
   const apiPerm = PERMISSION[apiName]
   if (apiPerm) {
     const apiRolePerm = apiPerm[roleName]
@@ -24,9 +22,7 @@ module.exports = async (ctx, apiName, method) => {
       }
     }
   } else {
-    /*
-    如权限配置内未配置，可直接放走，交由路由层面处理
-     */
+    // 如权限配置内未配置，可直接放走，交由路由层面处理
     ctx.throw(404, '该角色没有权限哦！')
   }
   return { roleName, token }

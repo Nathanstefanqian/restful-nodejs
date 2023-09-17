@@ -26,10 +26,10 @@ const calcMethodAndCheckUrl = (apiName, id, ctx) => {
   const { method } = ctx.request
   let reqMethod = method.toLocaleLowerCase()
   if (id) {
-    if (method === 'POST') ctx.throw(405)
+    if (method === 'POST') ctx.throw(405, 'POST请求路由只能是apiName哦！')
     if (method === 'DELETE') reqMethod = 'del'
   } else {
-    if (['DELETE', 'PUT'].includes(method)) ctx.throw(405)
+    if (['DELETE', 'PUT'].includes(method)) ctx.throw(405, 'DELETE, PUT请求路由只能是apiName/id哦！')
     if (method === 'GET') reqMethod = 'ls'
   }
   return reqMethod

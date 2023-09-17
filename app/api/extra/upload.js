@@ -41,9 +41,11 @@ const calcSavePath = (hash, fileExt) => {
   const saveDir = path.resolve(rootPath, './static/upload/', hash.substring(0, 2))
   const savePath = path.resolve(saveDir, hash.substring(2) + fileExt)
   const returnPath = savePath.replace(rootPath + '/static', '')
+  console.log('返回路径', returnPath)
   return [saveDir, savePath, returnPath]
 }
 const saveFile = (ctx, file) => {
+  console.log('文件', file)
   const { path, hash } = file
   const fileExt = calcFileExt(path)
   if (!fileExt) ctx.throw(415, '仅支持 png/jpg/gif/bmp 等图片文件格式')

@@ -9,7 +9,6 @@ module.exports = async (ctx, { params, method, token }, next) => {
   if (!token) ctx.throw(401, '请重新登录')
   // 校验 token 信息
   const { role, account, id } = await getToken(token)
-  console.log(id, typeof id)
   if (!role || !account) ctx.throw(401, '请重新登录')
   // 获取个人信息
   const model = role === 'admin' ? 'Manages' : 'Editor'

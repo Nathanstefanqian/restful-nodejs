@@ -18,8 +18,8 @@ const DB_CONN_SQLITE = {
 const DB_CONN_MYSQL = {
   database: 'restful',
   username: 'root',
-  password: 'Qlj20020503@', // 别试了 误推 密码已经改了
-  host: '47.96.156.243',
+  password: 'xxxxxxx', // 别试了 误推 密码已经改了
+  host: '00.00.00.00',
   port: 3306,
   dialect: 'mysql',
   logging: false,

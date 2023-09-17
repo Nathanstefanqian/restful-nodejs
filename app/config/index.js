@@ -1,6 +1,7 @@
 const path = require('path')
 const PERMISSION = require('./permission')
 const { DB_CONN_SQLITE, DB_CONN_MYSQL, DB_PREFIX } = require('./database')
+const XSS_WHITE_LIST = require('./xss-white-list')
 
 // app 运行设置
 const APP_HOST = {
@@ -49,5 +50,6 @@ module.exports = {
   PERMISSION,
   KEY,
   APP_DIR,
-  IS_POST_TEST_DB
+  IS_POST_TEST_DB,
+  XSS_WHITE_LIST
 }

@@ -9,7 +9,8 @@ const encrypt = str => {
       if (err) reject(new Error(err))
       const Rsa = new NodeRSA(data)
       Rsa.setOptions({ encryptionScheme: 'pkcs1' })
-      resolve(Rsa.encrypt(str, 'base64'))
+      const password = Rsa.encrypt(str, 'base64')
+      resolve(password)
     })
   })
 }

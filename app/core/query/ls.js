@@ -2,9 +2,9 @@
   分页数据查询方法 支持各种复杂查询条件，详情见文档
 */
 const { Op } = require('sequelize')
-const { models } = require(':@/model')
+const models = require(':@/model')
 const { PAGE_SIZE } = require(':config')
-const { isNumer } = global.tool.verify
+const { isNumber } = global.tool.verify
 // 从请求参数中找出非标准参数并输出为对象
 const getArgs = (params) => {
   const args = {}
@@ -49,11 +49,12 @@ const ArgHandle = {
 }
 
 module.exports = async (ctx, model, method, params) => {
+  console.log('参数为', params)
   const { pagesize = PAGE_SIZE, page = 0, time } = params
   model = models[model]
   const modelField = Object.keys(model.rawAttributes)
   // 校验分页参数
-  if (!isNumer(pagesize) || !isNumer(page)) ctx.throw(412, '参数非法, pagesize 和 page 只能是数字')
+  if (!isNumber(pagesize) || !isNumber(page)) ctx.throw(412, '参数非法, pagesize 和 page 只能是数字')
   const PSize = Number(pagesize)
   // 构建基础 where 参数
   const condition = {
@@ -89,10 +90,13 @@ module.exports = async (ctx, model, method, params) => {
     const timeArrLen = timeArr.length
     let st, et
     if (timeArrLen > 2) ctx.throw(412, 'time参数有误')
-    if (timeArr.filter(i => !isNumer(i)).length) ctx.throw(412, 'time参数只接受时间戳数字')
+    if (timeArr.filter(i => !isNumber(i)).length) ctx.throw(412, 'time参数只接受时间戳数字')
+    console.log(timeArr)
     if (timeArrLen === 1) {
       const t = +timeArr[0]
+      console.log(t)
       st = t - t % 86400000
+      console.log(st)
       et = st + 86400000
     } else {
       st = +timeArr[0]
@@ -137,7 +141,7 @@ module.exports = async (ctx, model, method, params) => {
       }
     }
   }
-
+  console.log('条件', condition)
   // 查询从数据库查询数据
   const res = await model.findAndCountAll(condition).then(r => {
     return {

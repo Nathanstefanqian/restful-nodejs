@@ -17,13 +17,12 @@ module.exports = async (ctx, model, method, params) => {
     if (r.id) ctx.throw(412, '添加新数据，数据不得包含ID字段')
     if (Object.keys(r).length === 0) ctx.throw(412, '添加新数据，数据不得为空')
   })
-
   const res = { ids: [] }
   await Promise.all(params.map(async item => {
     item = filterObjectXss(item)
     const id = await models[model]
       .create(item)
-      .then(r => r.id)
+      .then(r => r.id).catch(err => console.error(err))
     res.ids.push(id)
   }))
   return res

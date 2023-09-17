@@ -49,6 +49,11 @@ const privateTypes = {
     可用下划线替代 如 my_love 是合法的
 */
 module.exports = {
+  // test表
+  Test: {
+    title: STRING,
+    time: privateTypes.Date()
+  },
   // 文章表
   Article: {
     title: STRING, // 文章标题

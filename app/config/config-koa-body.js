@@ -20,7 +20,7 @@ module.exports = {
     keepExtensions: false
   },
   onError(err, ctx) {
-    console.log('请求体传入发现问题', err)
+    console.err('请求体传入发现问题', err)
     // ctx.throw(413, '文件超过限额大小！')
     ctx.throw(500, '服务器故障')
   }
