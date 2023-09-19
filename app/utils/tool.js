@@ -152,5 +152,6 @@ module.exports = {
   // 加载自定义校验
   verify: require('./verify'),
   rsa: require('./rsa'),
-  hash: require('./hash')
+  hash: require('./hash'),
+  service: require('./request')
 }

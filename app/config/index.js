@@ -39,6 +39,8 @@ const SESSION_TYPE = 'file'
 // 初始化数据库时是否添加测试数据
 const IS_POST_TEST_DB = true
 
+const BASEURL = 'https://api.weixin.qq.com'
+
 module.exports = {
   SESSION_TYPE,
   DB_CONN_MYSQL,
@@ -51,5 +53,6 @@ module.exports = {
   KEY,
   APP_DIR,
   IS_POST_TEST_DB,
-  XSS_WHITE_LIST
+  XSS_WHITE_LIST,
+  BASEURL
 }

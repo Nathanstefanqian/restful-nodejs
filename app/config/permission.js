@@ -15,6 +15,7 @@ const onlyRead = { anyone: [ls], editor: [ls], admin: [ls] }
 const onlyPost = { anyone: [post], editor: [post], admin: [post] }
 // 导出接口权限
 module.exports = {
+  wx: normal,
   test: normal,
   article: normal,
   channel: normal,
