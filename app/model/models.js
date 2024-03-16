@@ -49,11 +49,6 @@ const privateTypes = {
     可用下划线替代 如 my_love 是合法的
 */
 module.exports = {
-  // test表
-  Test: {
-    title: STRING,
-    time: privateTypes.Date()
-  },
   // 文章表
   Article: {
     title: STRING, // 文章标题
@@ -79,6 +74,11 @@ module.exports = {
     description: TEXT, // 栏目描述
     time: privateTypes.Date()
   },
+  // 单词表
+  Word: {
+    ch: STRING,
+    en: STRING
+  },
   // 超级管理员
   Admin: {
     account: STRING, // 超级管理员账号
@@ -86,7 +86,6 @@ module.exports = {
     name: STRING, // 姓名
     avatar: STRING, // 头像
     mark: TEXT,
-    editor: privateTypes.Editor(),
     mobile: privateTypes.Mobile(),
     email: privateTypes.Email(),
     time: privateTypes.Date(),

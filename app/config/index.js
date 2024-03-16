@@ -1,6 +1,6 @@
 const path = require('path')
 const PERMISSION = require('./permission')
-const { DB_CONN_SQLITE, DB_CONN_MYSQL, DB_PREFIX } = require('./database')
+const { DB_CONN_SQLITE, DB_CONN_MYSQL, DB_LOCAL_MYSQL, DB_PREFIX } = require('./database')
 const XSS_WHITE_LIST = require('./xss-white-list')
 
 // app 运行设置
@@ -45,6 +45,7 @@ module.exports = {
   SESSION_TYPE,
   DB_CONN_MYSQL,
   DB_CONN_SQLITE,
+  DB_LOCAL_MYSQL,
   DB_PREFIX,
   APP_HOST,
   API_PREFIX,

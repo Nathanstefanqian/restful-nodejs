@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const { DB_CONN_SQLITE, DB_PREFIX } = require('../config')
+const { DB_PREFIX, DB_CONN_MYSQL, DB_LOCAL_MYSQL } = require('../config')
 const models = require('./models')
-const sequelize = new Sequelize('restful', 'root', 'xxxxxxxx', DB_CONN_SQLITE)
+const sequelize = new Sequelize('word', 'root', 'Qlj123456', DB_CONN_MYSQL)
+// const sequelize = new Sequelize('word', 'root', '12345678', DB_LOCAL_MYSQL)
 const model = {}
 
 // 初始化所有模型映射到数据库中 ORM
@@ -16,6 +17,7 @@ Object.keys(models).forEach(item => {
       paranoid: true // 启用软删除
     }
   )
+  console.log(tempModel)
   model[item] = tempModel
 })
 // 这里是sequelize5的语法，在sequlize6中不适用，无法同步模型到数据库中 todo
